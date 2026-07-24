@@ -47,7 +47,7 @@ public sealed class TotlangSchemaTests
         });
     }
 
-    [TestCase("""{"schemaVersion":2,"packId":"fixture"}""")]
+    [TestCase("""{"schemaVersion":3,"packId":"fixture"}""")]
     [TestCase("""{"packId":"fixture"}""")]
     [TestCase("""{"schemaVersion":"1","packId":"fixture"}""")]
     [TestCase("""not json""")]

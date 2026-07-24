@@ -24,6 +24,34 @@ Schema version 1 is represented by the language-neutral contracts in
 members, and preserves authored text without runtime transliteration or
 language-specific code.
 
+Schema version 2 retains those declarative boundaries and replaces the course
+`proficiencyBand` with structured `proficiency`. A v2 package also contains
+`proficiency.json`, whose namespaced language milestones are anchored to the
+fixed TomeOfTongues stages `T01` through `T18`. All package documents use the
+same schema version. Valid v1 packages continue to load and validate without
+`proficiency.json`; their `proficiencyBand` is an opaque legacy string and must
+never be used to infer a TomeOfTongues stage, milestone, or external level.
+
+The global framework is versioned separately in
+`docs/proficiency/tomeoftongues-framework-v1.json`. Its 18 ordered stages are
+TomeOfTongues' own comparison backbone. Each stage has global can-do
+descriptors. Global milestones may be added within a framework version without
+renumbering or reordering the stages. Language milestones use the package ID as
+their namespace (for example, `example.pack:travel-ready`), declare a positive
+within-stage order, localized display names, and localized can-do descriptors.
+Courses may reference any defined language milestone or a global milestone.
+
+Structured course proficiency declares an overall inclusive entry/exit stage
+range and may declare different inclusive ranges for listening, reading,
+spoken interaction, spoken production, written interaction, written
+production, and mediation. Entry must not follow exit. External alignments
+identify a supported framework and inclusive ordered reference range, list the
+facets actually covered, and carry `estimated`, `reviewed`, or `validated`
+status plus an authoritative HTTP(S) source. Reviewed and validated claims
+also require a review date. An alignment is an evidence-qualified claim about
+a range and covered facets; it is not an exact stage alias, equivalence,
+certification, or automatic migration rule.
+
 The v1 document set contains:
 
 - a manifest with pack/package/engine versions, BCP 47 language and locale
@@ -65,6 +93,11 @@ Validation reopens the artifact and enforces:
 
 The manifest itself carries the source ledger and license notices.
 
+Package and minimum-engine versions use the numeric dotted format accepted by
+`.NET Version`; prerelease labels and build metadata are not part of schema
+version 1. Package schema compatibility remains independent and is controlled
+by each document's integer `schemaVersion`.
+
 The first language-specific authoring boundary is
 `TomeOfTongues.Language.Japanese`. Its checked-in `Source` directory contains
 only declarative v1 documents, and its build emits
@@ -72,10 +105,6 @@ only declarative v1 documents, and its build emits
 records original TomeOfTongues material under CC BY-SA 4.0 but contains no
 lesson text or assets. `RIGHTS.md` records the content-owner workflow for
 future authored text and human audio.
-Package and minimum-engine versions use the numeric dotted format accepted by
-`.NET Version`; prerelease labels and build metadata are not part of schema
-version 1. Package schema compatibility remains independent and is controlled
-by each document's integer `schemaVersion`.
 
 At runtime,
 `TomeOfTongues.Infrastructure.Packaging.TotlangPackageCatalog` discovers

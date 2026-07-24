@@ -165,7 +165,7 @@ public sealed class TotlangPackageCatalogTests
             Guid.NewGuid().ToString("N") + ".totlang");
         var manifest = new TotlangManifest
         {
-            SchemaVersion = TotlangSchema.CurrentVersion,
+            SchemaVersion = TotlangSchema.LegacyVersion,
             PackId = packId,
             PackageVersion = packageVersion,
             MinimumEngineVersion = minimumEngineVersion,
@@ -188,7 +188,7 @@ public sealed class TotlangPackageCatalogTests
         };
         var courses = new TotlangCourseCatalog
         {
-            SchemaVersion = TotlangSchema.CurrentVersion,
+            SchemaVersion = TotlangSchema.LegacyVersion,
             Courses = []
         };
 

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 2,
+  "frameworkId": "tomeoftongues",
+  "frameworkVersion": 1,
+  "stages": [
+    {
+      "id": "T01",
+      "order": 1,
+      "displayNames": [{ "languageTag": "en", "value": "Initial recognition" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can recognize a small set of highly familiar language cues with strong contextual support." }]
+    },
+    {
+      "id": "T02",
+      "order": 2,
+      "displayNames": [{ "languageTag": "en", "value": "Rehearsed response" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can use a small rehearsed repertoire for immediate personal needs." }]
+    },
+    {
+      "id": "T03",
+      "order": 3,
+      "displayNames": [{ "languageTag": "en", "value": "Familiar exchange" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can take part in short familiar exchanges when language is clear and supported." }]
+    },
+    {
+      "id": "T04",
+      "order": 4,
+      "displayNames": [{ "languageTag": "en", "value": "Routine meaning" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can understand and convey basic meaning in predictable everyday situations." }]
+    },
+    {
+      "id": "T05",
+      "order": 5,
+      "displayNames": [{ "languageTag": "en", "value": "Connected routines" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can connect simple language to complete common multi-step routines." }]
+    },
+    {
+      "id": "T06",
+      "order": 6,
+      "displayNames": [{ "languageTag": "en", "value": "Supported description" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can describe familiar people, places, events, and needs with occasional support." }]
+    },
+    {
+      "id": "T07",
+      "order": 7,
+      "displayNames": [{ "languageTag": "en", "value": "Independent exchange" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can sustain straightforward exchanges on familiar matters without prepared wording." }]
+    },
+    {
+      "id": "T08",
+      "order": 8,
+      "displayNames": [{ "languageTag": "en", "value": "Narrated experience" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can relate experiences and explain simple reasons in connected language." }]
+    },
+    {
+      "id": "T09",
+      "order": 9,
+      "displayNames": [{ "languageTag": "en", "value": "Adaptive interaction" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can adapt familiar language to manage unplanned but concrete interactions." }]
+    },
+    {
+      "id": "T10",
+      "order": 10,
+      "displayNames": [{ "languageTag": "en", "value": "Detailed communication" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can understand and produce detailed communication across a range of familiar topics." }]
+    },
+    {
+      "id": "T11",
+      "order": 11,
+      "displayNames": [{ "languageTag": "en", "value": "Sustained viewpoint" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can sustain a viewpoint and respond to alternatives with relevant detail." }]
+    },
+    {
+      "id": "T12",
+      "order": 12,
+      "displayNames": [{ "languageTag": "en", "value": "Abstract participation" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can participate effectively in discussions that include abstract or specialized content." }]
+    },
+    {
+      "id": "T13",
+      "order": 13,
+      "displayNames": [{ "languageTag": "en", "value": "Complex participation" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can handle complex communication demands with clear structure and appropriate detail." }]
+    },
+    {
+      "id": "T14",
+      "order": 14,
+      "displayNames": [{ "languageTag": "en", "value": "Flexible register" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can adjust register, emphasis, and organization for different audiences and purposes." }]
+    },
+    {
+      "id": "T15",
+      "order": 15,
+      "displayNames": [{ "languageTag": "en", "value": "Nuanced interpretation" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can interpret and express nuanced positions, implications, and attitudes." }]
+    },
+    {
+      "id": "T16",
+      "order": 16,
+      "displayNames": [{ "languageTag": "en", "value": "Specialized command" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can communicate precisely in demanding specialized, academic, or professional contexts." }]
+    },
+    {
+      "id": "T17",
+      "order": 17,
+      "displayNames": [{ "languageTag": "en", "value": "Subtle synthesis" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can synthesize subtle and conflicting meanings while preserving tone and intent." }]
+    },
+    {
+      "id": "T18",
+      "order": 18,
+      "displayNames": [{ "languageTag": "en", "value": "Expert precision" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can communicate with expert precision, flexibility, and sensitivity across highly demanding contexts." }]
+    }
+  ],
+  "globalMilestones": [
+    {
+      "id": "global:initial-repertoire",
+      "anchorStage": "T02",
+      "withinStageOrder": 1,
+      "displayNames": [{ "languageTag": "en", "value": "Initial functional repertoire" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can draw on rehearsed language to meet an immediate practical need." }]
+    },
+    {
+      "id": "global:independent-exchange",
+      "anchorStage": "T07",
+      "withinStageOrder": 1,
+      "displayNames": [{ "languageTag": "en", "value": "Independent familiar exchange" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can complete a familiar exchange without relying on a prepared script." }]
+    },
+    {
+      "id": "global:complex-participation",
+      "anchorStage": "T13",
+      "withinStageOrder": 1,
+      "displayNames": [{ "languageTag": "en", "value": "Complex active participation" }],
+      "canDoDescriptors": [{ "languageTag": "en", "value": "Can contribute effectively when a communicative task has several interacting demands." }]
+    }
+  ],
+  "externalFrameworks": [
+    {
+      "id": "cefr",
+      "orderedReferenceLevels": ["A1", "A2", "B1", "B2", "C1", "C2"]
+    },
+    {
+      "id": "jlpt",
+      "orderedReferenceLevels": ["N5", "N4", "N3", "N2", "N1"]
+    },
+    {
+      "id": "jf-standard",
+      "orderedReferenceLevels": ["A1", "A2", "B1", "B2", "C1", "C2"]
+    }
+  ]
+}

@@ -80,6 +80,7 @@ public sealed class JapanesePackTests
         {
             Assert.That(course.Id, Is.EqualTo("japanese-starter"));
             Assert.That(course.ProficiencyBand, Is.EqualTo("starter"));
+            Assert.That(course.Proficiency, Is.Null);
             Assert.That(unit.LessonIds, Is.EqualTo(expectedLessonIds));
             Assert.That(lessons.Keys, Is.EquivalentTo(expectedLessonIds));
         });
