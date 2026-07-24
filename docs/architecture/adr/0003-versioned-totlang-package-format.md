@@ -61,9 +61,19 @@ Validation reopens the artifact and enforces:
 - explicit redistribution permission for every source; and
 - SHA-256 integrity for every declared asset.
 
-The manifest itself carries the source ledger and license notices. Package
-installation and engine compatibility-window policy remain separate
-language-pack platform outcomes.
+The manifest itself carries the source ledger and license notices.
+
+At runtime,
+`TomeOfTongues.Infrastructure.Packaging.TotlangPackageCatalog` discovers
+installed artifacts from an app-private filesystem root. Installation first
+copies to a non-discoverable temporary file, applies the same complete Content
+validation used by the authoring tool, and rejects packs whose declared
+minimum engine version is newer than the running engine. A successful install
+is atomically moved to a deterministic SHA-256 identity path, so manifest
+values cannot escape the catalog root and a failed reinstall preserves the
+previous artifact. Discovery revalidates artifacts without loading executable
+assemblies, is deterministic by pack ID and package version, and survives a
+process restart without requiring SQLite metadata.
 
 ## Consequences
 
@@ -81,6 +91,7 @@ work fail at the schema boundary.
 ```powershell
 dotnet test tests/TomeOfTongues.Content.Tests/TomeOfTongues.Content.Tests.csproj
 dotnet test tests/TomeOfTongues.Content.Tool.Tests/TomeOfTongues.Content.Tool.Tests.csproj
+dotnet test tests/TomeOfTongues.Infrastructure.Tests/TomeOfTongues.Infrastructure.Tests.csproj
 dotnet test tests/TomeOfTongues.Architecture.Tests/TomeOfTongues.Architecture.Tests.csproj
 ```
 
