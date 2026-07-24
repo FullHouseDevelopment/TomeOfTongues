@@ -1,8 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
+using TomeOfTongues.Content.Packaging;
 using TomeOfTongues.Content.Schema;
 
-namespace TomeOfTongues.Content.Packaging;
+namespace TomeOfTongues.Infrastructure.Packaging;
 
 public sealed class TotlangPackageCatalog
 {

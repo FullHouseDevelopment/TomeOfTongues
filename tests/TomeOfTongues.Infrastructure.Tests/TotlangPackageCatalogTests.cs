@@ -1,9 +1,9 @@
 using System.IO.Compression;
 using NUnit.Framework;
-using TomeOfTongues.Content.Packaging;
 using TomeOfTongues.Content.Schema;
+using TomeOfTongues.Infrastructure.Packaging;
 
-namespace TomeOfTongues.Content.Tests;
+namespace TomeOfTongues.Infrastructure.Tests;
 
 [TestFixture]
 public sealed class TotlangPackageCatalogTests
@@ -15,7 +15,7 @@ public sealed class TotlangPackageCatalogTests
     {
         _temporaryDirectory = Path.Combine(
             Path.GetTempPath(),
-            "TomeOfTongues.Content.Tests",
+            "TomeOfTongues.Infrastructure.Tests",
             Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(_temporaryDirectory);
     }

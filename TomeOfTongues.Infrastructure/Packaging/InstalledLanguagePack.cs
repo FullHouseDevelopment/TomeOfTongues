@@ -1,6 +1,6 @@
 using TomeOfTongues.Content.Schema;
 
-namespace TomeOfTongues.Content.Packaging;
+namespace TomeOfTongues.Infrastructure.Packaging;
 
 public sealed record InstalledLanguagePack
 {
