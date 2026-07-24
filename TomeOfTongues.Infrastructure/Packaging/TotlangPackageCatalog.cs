@@ -60,7 +60,8 @@ public sealed class TotlangPackageCatalog
             return [];
         }
 
-        var discovered = new Dictionary<string, InstalledLanguagePack>(StringComparer.Ordinal);
+        var discovered = new Dictionary<string, (InstalledLanguagePack Pack, Version Version)>(
+            StringComparer.Ordinal);
         foreach (var packagePath in Directory.EnumerateFiles(
                      _catalogRoot,
                      "*.totlang",
@@ -70,7 +71,8 @@ public sealed class TotlangPackageCatalog
             EnsureCompatible(manifest);
 
             var key = manifest.PackId + "\n" + manifest.PackageVersion;
-            if (!discovered.TryAdd(key, CreateDescriptor(manifest, packagePath)))
+            var pack = CreateDescriptor(manifest, packagePath);
+            if (!discovered.TryAdd(key, (pack, Version.Parse(manifest.PackageVersion))))
             {
                 throw new InvalidDataException(
                     $"Language pack '{manifest.PackId}' version '{manifest.PackageVersion}' is installed more than once.");
@@ -78,8 +80,9 @@ public sealed class TotlangPackageCatalog
         }
 
         return discovered.Values
-            .OrderBy(pack => pack.PackId, StringComparer.Ordinal)
-            .ThenBy(pack => pack.PackageVersion, StringComparer.Ordinal)
+            .OrderBy(entry => entry.Pack.PackId, StringComparer.Ordinal)
+            .ThenBy(entry => entry.Version)
+            .Select(entry => entry.Pack)
             .ToArray();
     }
 
