@@ -1,4 +1,44 @@
 {
   "schemaVersion": 1,
-  "courses": []
+  "courses": [
+    {
+      "id": "japanese-starter",
+      "revision": 1,
+      "displayNames": [
+        {
+          "languageTag": "en",
+          "value": "Practical Japanese Starter"
+        },
+        {
+          "languageTag": "ja",
+          "value": "実用日本語入門"
+        }
+      ],
+      "proficiencyBand": "starter",
+      "units": [
+        {
+          "id": "starter-essentials",
+          "revision": 1,
+          "displayNames": [
+            {
+              "languageTag": "en",
+              "value": "Everyday essentials"
+            },
+            {
+              "languageTag": "ja",
+              "value": "日常の基本"
+            }
+          ],
+          "lessonIds": [
+            "starter-greetings",
+            "starter-introductions",
+            "starter-courtesy",
+            "starter-requests",
+            "starter-directions",
+            "starter-transactions"
+          ]
+        }
+      ]
+    }
+  ]
 }

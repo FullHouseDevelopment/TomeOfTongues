@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "tomeoftongues.japanese",
-  "packageVersion": "0.1.0",
+  "packageVersion": "0.2.0",
   "minimumEngineVersion": "1.0.0",
   "languageTag": "ja",
   "localeTags": [
@@ -10,11 +10,11 @@
   "displayNames": [
     {
       "languageTag": "en",
-      "value": "Japanese Preview"
+      "value": "Practical Japanese Starter"
     },
     {
       "languageTag": "ja",
-      "value": "日本語プレビュー"
+      "value": "実用日本語入門"
     }
   ],
   "representations": [
@@ -50,7 +50,9 @@
     "trim",
     "collapseWhitespace"
   ],
-  "courseIds": [],
+  "courseIds": [
+    "japanese-starter"
+  ],
   "assets": [],
   "sources": [
     {
