@@ -84,6 +84,13 @@ public static class TotlangSchema
                 $"Unsupported .totlang schema version {document.SchemaVersion}. Expected {CurrentVersion}.");
         }
 
+        if (document is TotlangManifest manifest)
+        {
+            ValidateVersion(manifest.PackageVersion, "package version");
+            ValidateVersion(manifest.MinimumEngineVersion, "minimum engine version");
+            return;
+        }
+
         if (document is not TotlangLesson lesson)
         {
             return;
@@ -121,6 +128,15 @@ public static class TotlangSchema
                 throw new TotlangSchemaException(
                     $"Spoken exercise '{step.Exercise.Id}' must allow deferral.");
             }
+        }
+    }
+
+    private static void ValidateVersion(string value, string description)
+    {
+        if (!Version.TryParse(value, out _))
+        {
+            throw new TotlangSchemaException(
+                $"The manifest {description} '{value}' is not a valid numeric dotted version.");
         }
     }
 }

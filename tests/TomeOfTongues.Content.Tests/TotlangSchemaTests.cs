@@ -72,6 +72,25 @@ public sealed class TotlangSchemaTests
             Throws.TypeOf<TotlangSchemaException>());
     }
 
+    [TestCase("packageVersion", "not-a-version", "package version")]
+    [TestCase("minimumEngineVersion", "preview", "minimum engine version")]
+    public void Manifest_rejects_invalid_versions(
+        string propertyName,
+        string value,
+        string expectedDescription)
+    {
+        var json = TotlangSchema.Serialize(CreateManifest())
+            .Replace(
+                $"\"{propertyName}\": \"1.0.0\"",
+                $"\"{propertyName}\": \"{value}\"",
+                StringComparison.Ordinal);
+
+        Assert.That(
+            () => TotlangSchema.Deserialize<TotlangManifest>(json),
+            Throws.TypeOf<TotlangSchemaException>()
+                .With.Message.Contains(expectedDescription));
+    }
+
     [Test]
     public void Gating_spoken_work_is_rejected()
     {
