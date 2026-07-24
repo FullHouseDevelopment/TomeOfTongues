@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "TomeOfTongues.Language.Japanese/1.0.0": {
+        "runtime": {
+          "TomeOfTongues.Language.Japanese.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TomeOfTongues.Language.Japanese/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

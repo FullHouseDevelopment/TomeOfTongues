@@ -131,7 +131,7 @@ public sealed class JapanesePackTests
                         exercise => exercise.ResponseModality != ResponseModality.Spoken
                             && exercise.ResponseModality != ResponseModality.Typed),
                     $"{lesson.Id} must not require speech or Japanese-script entry.");
-                Assert.That(spokenSteps, Has.Count.EqualTo(1));
+                Assert.That(spokenSteps, Has.Length.EqualTo(1));
                 Assert.That(
                     spokenSteps,
                     Is.All.Matches<StepDefinition>(

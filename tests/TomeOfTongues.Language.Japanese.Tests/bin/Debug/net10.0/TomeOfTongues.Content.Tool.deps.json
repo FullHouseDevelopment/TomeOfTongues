@@ -1,0 +1,55 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "TomeOfTongues.Content.Tool/1.0.0": {
+        "dependencies": {
+          "TomeOfTongues.Content": "1.0.0"
+        },
+        "runtime": {
+          "TomeOfTongues.Content.Tool.dll": {}
+        }
+      },
+      "TomeOfTongues.Content/1.0.0": {
+        "dependencies": {
+          "TomeOfTongues.Core": "1.0.0"
+        },
+        "runtime": {
+          "TomeOfTongues.Content.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "TomeOfTongues.Core/1.0.0": {
+        "runtime": {
+          "TomeOfTongues.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TomeOfTongues.Content.Tool/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TomeOfTongues.Content/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TomeOfTongues.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
