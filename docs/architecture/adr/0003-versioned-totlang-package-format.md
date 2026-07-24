@@ -65,11 +65,6 @@ Validation reopens the artifact and enforces:
 
 The manifest itself carries the source ledger and license notices.
 
-Package and minimum-engine versions use the numeric dotted format accepted by
-`.NET Version`; prerelease labels and build metadata are not part of schema
-version 1. Package schema compatibility remains independent and is controlled
-by each document's integer `schemaVersion`.
-
 The first language-specific authoring boundary is
 `TomeOfTongues.Language.Japanese`. Its checked-in `Source` directory contains
 only declarative v1 documents, and its build emits
@@ -83,13 +78,12 @@ At runtime,
 installed artifacts from an app-private filesystem root. Installation first
 copies to a non-discoverable temporary file, applies the same complete Content
 validation used by the authoring tool, and rejects packs whose declared
-minimum engine version is newer than the running engine; equality is
-compatible. A successful install is atomically moved to a deterministic
-SHA-256 identity path, so manifest values cannot escape the catalog root and a
-failed reinstall preserves the previous artifact. Distinct versions of one
-pack remain installed side by side. Discovery revalidates compatibility
-without loading executable assemblies, orders versions numerically within each
-pack ID, and survives a process restart without requiring SQLite metadata.
+minimum engine version is newer than the running engine. A successful install
+is atomically moved to a deterministic SHA-256 identity path, so manifest
+values cannot escape the catalog root and a failed reinstall preserves the
+previous artifact. Discovery revalidates artifacts without loading executable
+assemblies, is deterministic by pack ID and package version, and survives a
+process restart without requiring SQLite metadata.
 
 ## Consequences
 
