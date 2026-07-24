@@ -173,12 +173,44 @@ public sealed class TotlangPackageToolTests
                 .With.Message.Contains("references missing lesson"));
     }
 
+    [Test]
+    public void Compile_creates_and_validates_a_v2_package()
+    {
+        var sourceDirectory = CreateValidSource(schemaVersion: TotlangSchema.CurrentVersion);
+        var packagePath = Path.Combine(_temporaryDirectory, "fixture-v2.totlang");
+
+        TotlangPackageTool.Compile(sourceDirectory, packagePath);
+        TotlangPackageTool.Validate(packagePath);
+
+        using var stream = File.OpenRead(packagePath);
+        using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
+        Assert.That(
+            archive.Entries.Select(entry => entry.FullName),
+            Does.Contain("proficiency.json"));
+    }
+
+    [Test]
+    public void Compile_rejects_a_missing_v2_milestone_reference()
+    {
+        var sourceDirectory = CreateValidSource(
+            schemaVersion: TotlangSchema.CurrentVersion,
+            milestoneIds: ["fixture.pack:missing"]);
+        var packagePath = Path.Combine(_temporaryDirectory, "fixture-v2.totlang");
+
+        Assert.That(
+            () => TotlangPackageTool.Compile(sourceDirectory, packagePath),
+            Throws.TypeOf<InvalidDataException>()
+                .With.Message.Contains("references missing proficiency milestone"));
+    }
+
     private string CreateValidSource(
         bool redistributionAllowed = true,
         string origin = "Original fixture",
         string attribution = "Original fixture content",
         string licenseName = "CC BY-SA 4.0",
-        string? assetSha256 = null)
+        string? assetSha256 = null,
+        int schemaVersion = TotlangSchema.LegacyVersion,
+        IReadOnlyList<string>? milestoneIds = null)
     {
         var sourceDirectory = Path.Combine(_temporaryDirectory, "source");
         var lessonDirectory = Path.Combine(sourceDirectory, "lessons");
@@ -191,7 +223,7 @@ public sealed class TotlangPackageToolTests
 
         var manifest = new TotlangManifest
         {
-            SchemaVersion = TotlangSchema.CurrentVersion,
+            SchemaVersion = schemaVersion,
             PackId = "fixture.pack",
             PackageVersion = "1.0.0",
             MinimumEngineVersion = "1.0.0",
@@ -256,7 +288,7 @@ public sealed class TotlangPackageToolTests
 
         var catalog = new TotlangCourseCatalog
         {
-            SchemaVersion = TotlangSchema.CurrentVersion,
+            SchemaVersion = schemaVersion,
             Courses =
             [
                 new CourseDefinition
@@ -271,7 +303,13 @@ public sealed class TotlangPackageToolTests
                             Value = "Fixture course"
                         }
                     ],
-                    ProficiencyBand = "beginner",
+                    ProficiencyBand = schemaVersion == TotlangSchema.LegacyVersion
+                        ? "beginner"
+                        : null,
+                    Proficiency = schemaVersion == TotlangSchema.CurrentVersion
+                        ? CreateV2CourseProficiency(
+                            milestoneIds ?? ["fixture.pack:survival-exchange"])
+                        : null,
                     Units =
                     [
                         new UnitDefinition
@@ -295,7 +333,7 @@ public sealed class TotlangPackageToolTests
 
         var lesson = new TotlangLesson
         {
-            SchemaVersion = TotlangSchema.CurrentVersion,
+            SchemaVersion = schemaVersion,
             Id = "lesson-1",
             Revision = 1,
             CourseId = "course-1",
@@ -319,10 +357,76 @@ public sealed class TotlangPackageToolTests
         File.WriteAllText(
             Path.Combine(sourceDirectory, "courses.json"),
             TotlangSchema.Serialize(catalog));
+        if (schemaVersion == TotlangSchema.CurrentVersion)
+        {
+            var proficiencyCatalog = new TotlangProficiencyCatalog
+            {
+                SchemaVersion = TotlangSchema.CurrentVersion,
+                Milestones =
+                [
+                    new ProficiencyMilestoneDefinition
+                    {
+                        Id = "fixture.pack:survival-exchange",
+                        AnchorStage = "T03",
+                        WithinStageOrder = 1,
+                        DisplayNames =
+                        [
+                            new LocalizedText
+                            {
+                                LanguageTag = "en",
+                                Value = "Survival exchange"
+                            }
+                        ],
+                        CanDoDescriptors =
+                        [
+                            new LocalizedText
+                            {
+                                LanguageTag = "en",
+                                Value = "Can complete a supported practical exchange."
+                            }
+                        ]
+                    }
+                ]
+            };
+            File.WriteAllText(
+                Path.Combine(sourceDirectory, "proficiency.json"),
+                TotlangSchema.Serialize(proficiencyCatalog));
+        }
+
         File.WriteAllText(
             Path.Combine(lessonDirectory, "lesson-1.json"),
             TotlangSchema.Serialize(lesson));
 
         return sourceDirectory;
     }
+
+    private static CourseProficiencyDefinition CreateV2CourseProficiency(
+        IReadOnlyList<string> milestoneIds) =>
+        new()
+        {
+            OverallEntryStage = "T02",
+            OverallExitStage = "T05",
+            Facets =
+            [
+                new FacetProficiencyRange
+                {
+                    Facet = ProficiencyFacet.Listening,
+                    EntryStage = "T01",
+                    ExitStage = "T06"
+                }
+            ],
+            MilestoneIds = milestoneIds,
+            ExternalAlignments =
+            [
+                new ExternalProficiencyAlignment
+                {
+                    FrameworkId = "cefr",
+                    LowerReferenceLevel = "A1",
+                    UpperReferenceLevel = "A2",
+                    Facets = [ProficiencyFacet.Listening],
+                    Status = ExternalAlignmentStatus.Estimated,
+                    AuthoritativeSourceUri = "https://example.org/authoritative-source"
+                }
+            ]
+        };
 }

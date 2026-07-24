@@ -2,4 +2,10 @@
   <ItemGroup>
     <ProjectReference Include="../../TomeOfTongues.Content/TomeOfTongues.Content.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../docs/proficiency/tomeoftongues-framework-v1.json"
+          Link="proficiency/tomeoftongues-framework-v1.json"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

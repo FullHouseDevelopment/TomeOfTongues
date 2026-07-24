@@ -9,6 +9,7 @@ public static class TotlangPackageArchive
 {
     private const string ManifestPath = "manifest.json";
     private const string CourseCatalogPath = "courses.json";
+    private const string ProficiencyCatalogPath = "proficiency.json";
     private const string LessonsPrefix = "lessons/";
     private const string AssetsPrefix = "assets/";
 
@@ -182,6 +183,9 @@ public static class TotlangPackageArchive
     {
         var manifest = ReadRequiredDocument<TotlangManifest>(contents, ManifestPath);
         var catalog = ReadRequiredDocument<TotlangCourseCatalog>(contents, CourseCatalogPath);
+        var proficiencyCatalog = manifest.SchemaVersion == TotlangSchema.CurrentVersion
+            ? ReadRequiredDocument<TotlangProficiencyCatalog>(contents, ProficiencyCatalogPath)
+            : null;
 
         var lessons = contents
             .Where(entry =>
@@ -195,9 +199,15 @@ public static class TotlangPackageArchive
         var allowedPaths = new HashSet<string>(
             [ManifestPath, CourseCatalogPath, .. lessons.Select(lesson => lesson.Path)],
             StringComparer.OrdinalIgnoreCase);
+        if (proficiencyCatalog is not null)
+        {
+            allowedPaths.Add(ProficiencyCatalogPath);
+        }
 
+        ValidateSchemaVersions(manifest, catalog, proficiencyCatalog, lessons);
         ValidateManifest(manifest, contents, allowedPaths);
         ValidateCatalog(manifest, catalog, lessons);
+        ValidateProficiency(manifest, catalog, proficiencyCatalog);
         ValidateLessons(manifest, lessons);
 
         var undeclaredPath = contents.Keys.FirstOrDefault(path => !allowedPaths.Contains(path));
@@ -208,6 +218,69 @@ public static class TotlangPackageArchive
         }
 
         return manifest;
+    }
+
+    private static void ValidateSchemaVersions(
+        TotlangManifest manifest,
+        TotlangCourseCatalog catalog,
+        TotlangProficiencyCatalog? proficiencyCatalog,
+        IReadOnlyList<(string Path, TotlangLesson Lesson)> lessons)
+    {
+        if (catalog.SchemaVersion != manifest.SchemaVersion
+            || proficiencyCatalog is not null
+                && proficiencyCatalog.SchemaVersion != manifest.SchemaVersion
+            || lessons.Any(lesson => lesson.Lesson.SchemaVersion != manifest.SchemaVersion))
+        {
+            throw new InvalidDataException(
+                "All documents in a .totlang package must use the manifest schema version.");
+        }
+    }
+
+    private static void ValidateProficiency(
+        TotlangManifest manifest,
+        TotlangCourseCatalog catalog,
+        TotlangProficiencyCatalog? proficiencyCatalog)
+    {
+        if (manifest.SchemaVersion == TotlangSchema.LegacyVersion)
+        {
+            return;
+        }
+
+        if (proficiencyCatalog is null)
+        {
+            throw new InvalidDataException(
+                "Schema v2 packages must contain proficiency.json.");
+        }
+
+        var languageMilestoneIds = proficiencyCatalog.Milestones
+            .Select(milestone => milestone.Id)
+            .ToHashSet(StringComparer.Ordinal);
+        var expectedNamespace = manifest.PackId + ":";
+        foreach (var milestoneId in languageMilestoneIds)
+        {
+            if (!milestoneId.StartsWith(expectedNamespace, StringComparison.Ordinal))
+            {
+                throw new InvalidDataException(
+                    $"Language milestone '{milestoneId}' must use the package namespace '{expectedNamespace}'.");
+            }
+        }
+
+        var knownMilestoneIds = new HashSet<string>(
+            TomeOfTonguesProficiencyFramework.GlobalMilestoneIds,
+            StringComparer.Ordinal);
+        knownMilestoneIds.UnionWith(languageMilestoneIds);
+
+        foreach (var course in catalog.Courses)
+        {
+            foreach (var milestoneId in course.Proficiency!.MilestoneIds)
+            {
+                if (!knownMilestoneIds.Contains(milestoneId))
+                {
+                    throw new InvalidDataException(
+                        $"Course '{course.Id}' references missing proficiency milestone '{milestoneId}'.");
+                }
+            }
+        }
     }
 
     private static void ValidateManifest(
