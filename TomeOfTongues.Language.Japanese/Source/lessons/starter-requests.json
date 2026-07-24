@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-requests",
+  "revision": 1,
+  "courseId": "japanese-starter",
+  "unitId": "starter-essentials",
+  "displayNames": [
+    { "languageTag": "en", "value": "Make simple requests" },
+    { "languageTag": "ja", "value": "簡単なお願い" }
+  ],
+  "objectives": [
+    {
+      "id": "requests-recognition",
+      "revision": 1,
+      "skillDimension": "recognition"
+    },
+    {
+      "id": "requests-speaking",
+      "revision": 1,
+      "skillDimension": "spokenProduction",
+      "representationId": "hiragana"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "water-please",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "water-please-hiragana",
+          "representationId": "hiragana",
+          "value": "みずを おねがいします",
+          "annotations": []
+        },
+        {
+          "id": "water-please-romaji",
+          "representationId": "romaji",
+          "value": "mizu o onegai shimasu",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Water, please."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    },
+    {
+      "id": "once-more-please",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "once-more-please-hiragana",
+          "representationId": "hiragana",
+          "value": "もういちど おねがいします",
+          "annotations": []
+        },
+        {
+          "id": "once-more-please-romaji",
+          "representationId": "romaji",
+          "value": "mou ichido onegai shimasu",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Once more, please."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "requests-exposure",
+      "revision": 1,
+      "kind": "contextualExposure",
+      "progression": "required",
+      "expressionIds": [ "water-please", "once-more-please" ]
+    },
+    {
+      "id": "requests-check",
+      "revision": 1,
+      "kind": "exercise",
+      "progression": "required",
+      "expressionIds": [ "once-more-please" ],
+      "exercise": {
+        "id": "requests-meaning-check",
+        "revision": 1,
+        "type": "selection",
+        "promptModality": "text",
+        "responseModality": "selection",
+        "targetIds": [ "once-more-please" ],
+        "acceptableAnswers": [
+          {
+            "value": "Once more, please.",
+            "normalizationOperations": [ "unicodeNfc", "trim", "collapseWhitespace" ]
+          }
+        ],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "binary", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "requests-recognition",
+            "skillDimension": "recognition"
+          }
+        ]
+      }
+    },
+    {
+      "id": "requests-speak",
+      "revision": 1,
+      "kind": "optionalSpeakingOpportunity",
+      "progression": "deferredAllowed",
+      "expressionIds": [ "water-please", "once-more-please" ],
+      "exercise": {
+        "id": "requests-speaking-practice",
+        "revision": 1,
+        "type": "selfAssessment",
+        "promptModality": "text",
+        "responseModality": "spoken",
+        "targetIds": [ "water-please", "once-more-please" ],
+        "acceptableAnswers": [],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "selfReported", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "requests-speaking",
+            "skillDimension": "spokenProduction",
+            "representationId": "hiragana"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-transactions",
+  "revision": 1,
+  "courseId": "japanese-starter",
+  "unitId": "starter-essentials",
+  "displayNames": [
+    { "languageTag": "en", "value": "Shop for an item" },
+    { "languageTag": "ja", "value": "買い物をする" }
+  ],
+  "objectives": [
+    {
+      "id": "transactions-recognition",
+      "revision": 1,
+      "skillDimension": "recognition"
+    },
+    {
+      "id": "transactions-speaking",
+      "revision": 1,
+      "skillDimension": "spokenProduction",
+      "representationId": "hiragana"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "how-much-is-this",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "how-much-is-this-hiragana",
+          "representationId": "hiragana",
+          "value": "これは いくらですか",
+          "annotations": []
+        },
+        {
+          "id": "how-much-is-this-romaji",
+          "representationId": "romaji",
+          "value": "kore wa ikura desu ka",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "How much is this?"
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    },
+    {
+      "id": "this-please",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "this-please-hiragana",
+          "representationId": "hiragana",
+          "value": "これを ください",
+          "annotations": []
+        },
+        {
+          "id": "this-please-romaji",
+          "representationId": "romaji",
+          "value": "kore o kudasai",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "This one, please."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "transactions-exposure",
+      "revision": 1,
+      "kind": "contextualExposure",
+      "progression": "required",
+      "expressionIds": [ "how-much-is-this", "this-please" ]
+    },
+    {
+      "id": "transactions-check",
+      "revision": 1,
+      "kind": "exercise",
+      "progression": "required",
+      "expressionIds": [ "how-much-is-this" ],
+      "exercise": {
+        "id": "transactions-meaning-check",
+        "revision": 1,
+        "type": "selection",
+        "promptModality": "text",
+        "responseModality": "selection",
+        "targetIds": [ "how-much-is-this" ],
+        "acceptableAnswers": [
+          {
+            "value": "How much is this?",
+            "normalizationOperations": [ "unicodeNfc", "trim", "collapseWhitespace" ]
+          }
+        ],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "binary", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "transactions-recognition",
+            "skillDimension": "recognition"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transactions-speak",
+      "revision": 1,
+      "kind": "optionalSpeakingOpportunity",
+      "progression": "deferredAllowed",
+      "expressionIds": [ "how-much-is-this", "this-please" ],
+      "exercise": {
+        "id": "transactions-speaking-practice",
+        "revision": 1,
+        "type": "selfAssessment",
+        "promptModality": "text",
+        "responseModality": "spoken",
+        "targetIds": [ "how-much-is-this", "this-please" ],
+        "acceptableAnswers": [],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "selfReported", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "transactions-speaking",
+            "skillDimension": "spokenProduction",
+            "representationId": "hiragana"
+          }
+        ]
+      }
+    }
+  ]
+}

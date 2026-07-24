@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-introductions",
+  "revision": 1,
+  "courseId": "japanese-starter",
+  "unitId": "starter-essentials",
+  "displayNames": [
+    { "languageTag": "en", "value": "Introduce yourself" },
+    { "languageTag": "ja", "value": "自己紹介" }
+  ],
+  "objectives": [
+    {
+      "id": "introductions-recognition",
+      "revision": 1,
+      "skillDimension": "recognition"
+    },
+    {
+      "id": "introductions-speaking",
+      "revision": 1,
+      "skillDimension": "spokenProduction",
+      "representationId": "hiragana"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "my-name-is-alex",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "my-name-is-alex-hiragana",
+          "representationId": "hiragana",
+          "value": "わたしは あれっくすです",
+          "annotations": []
+        },
+        {
+          "id": "my-name-is-alex-romaji",
+          "representationId": "romaji",
+          "value": "watashi wa Arekkusu desu",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "I am Alex."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    },
+    {
+      "id": "nice-to-meet-you",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "nice-to-meet-you-hiragana",
+          "representationId": "hiragana",
+          "value": "はじめまして",
+          "annotations": []
+        },
+        {
+          "id": "nice-to-meet-you-romaji",
+          "representationId": "romaji",
+          "value": "hajimemashite",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Nice to meet you."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "introductions-exposure",
+      "revision": 1,
+      "kind": "contextualExposure",
+      "progression": "required",
+      "expressionIds": [ "my-name-is-alex", "nice-to-meet-you" ]
+    },
+    {
+      "id": "introductions-check",
+      "revision": 1,
+      "kind": "exercise",
+      "progression": "required",
+      "expressionIds": [ "nice-to-meet-you" ],
+      "exercise": {
+        "id": "introductions-meaning-check",
+        "revision": 1,
+        "type": "selection",
+        "promptModality": "text",
+        "responseModality": "selection",
+        "targetIds": [ "nice-to-meet-you" ],
+        "acceptableAnswers": [
+          {
+            "value": "Nice to meet you.",
+            "normalizationOperations": [ "unicodeNfc", "trim", "collapseWhitespace" ]
+          }
+        ],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "binary", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "introductions-recognition",
+            "skillDimension": "recognition"
+          }
+        ]
+      }
+    },
+    {
+      "id": "introductions-speak",
+      "revision": 1,
+      "kind": "optionalSpeakingOpportunity",
+      "progression": "deferredAllowed",
+      "expressionIds": [ "my-name-is-alex", "nice-to-meet-you" ],
+      "exercise": {
+        "id": "introductions-speaking-practice",
+        "revision": 1,
+        "type": "selfAssessment",
+        "promptModality": "text",
+        "responseModality": "spoken",
+        "targetIds": [ "my-name-is-alex", "nice-to-meet-you" ],
+        "acceptableAnswers": [],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "selfReported", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "introductions-speaking",
+            "skillDimension": "spokenProduction",
+            "representationId": "hiragana"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-directions",
+  "revision": 1,
+  "courseId": "japanese-starter",
+  "unitId": "starter-essentials",
+  "displayNames": [
+    { "languageTag": "en", "value": "Ask for directions" },
+    { "languageTag": "ja", "value": "道をたずねる" }
+  ],
+  "objectives": [
+    {
+      "id": "directions-recognition",
+      "revision": 1,
+      "skillDimension": "recognition"
+    },
+    {
+      "id": "directions-speaking",
+      "revision": 1,
+      "skillDimension": "spokenProduction",
+      "representationId": "hiragana"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "where-is-the-station",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "where-is-the-station-hiragana",
+          "representationId": "hiragana",
+          "value": "えきは どこですか",
+          "annotations": []
+        },
+        {
+          "id": "where-is-the-station-romaji",
+          "representationId": "romaji",
+          "value": "eki wa doko desu ka",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Where is the station?"
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    },
+    {
+      "id": "go-straight",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "go-straight-hiragana",
+          "representationId": "hiragana",
+          "value": "まっすぐ いってください",
+          "annotations": []
+        },
+        {
+          "id": "go-straight-romaji",
+          "representationId": "romaji",
+          "value": "massugu itte kudasai",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Please go straight."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "directions-exposure",
+      "revision": 1,
+      "kind": "contextualExposure",
+      "progression": "required",
+      "expressionIds": [ "where-is-the-station", "go-straight" ]
+    },
+    {
+      "id": "directions-check",
+      "revision": 1,
+      "kind": "exercise",
+      "progression": "required",
+      "expressionIds": [ "where-is-the-station" ],
+      "exercise": {
+        "id": "directions-meaning-check",
+        "revision": 1,
+        "type": "selection",
+        "promptModality": "text",
+        "responseModality": "selection",
+        "targetIds": [ "where-is-the-station" ],
+        "acceptableAnswers": [
+          {
+            "value": "Where is the station?",
+            "normalizationOperations": [ "unicodeNfc", "trim", "collapseWhitespace" ]
+          }
+        ],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "binary", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "directions-recognition",
+            "skillDimension": "recognition"
+          }
+        ]
+      }
+    },
+    {
+      "id": "directions-speak",
+      "revision": 1,
+      "kind": "optionalSpeakingOpportunity",
+      "progression": "deferredAllowed",
+      "expressionIds": [ "where-is-the-station", "go-straight" ],
+      "exercise": {
+        "id": "directions-speaking-practice",
+        "revision": 1,
+        "type": "selfAssessment",
+        "promptModality": "text",
+        "responseModality": "spoken",
+        "targetIds": [ "where-is-the-station", "go-straight" ],
+        "acceptableAnswers": [],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "selfReported", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "directions-speaking",
+            "skillDimension": "spokenProduction",
+            "representationId": "hiragana"
+          }
+        ]
+      }
+    }
+  ]
+}

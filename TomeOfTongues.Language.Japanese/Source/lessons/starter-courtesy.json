@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-courtesy",
+  "revision": 1,
+  "courseId": "japanese-starter",
+  "unitId": "starter-essentials",
+  "displayNames": [
+    { "languageTag": "en", "value": "Thanks and apologies" },
+    { "languageTag": "ja", "value": "感謝とおわび" }
+  ],
+  "objectives": [
+    {
+      "id": "courtesy-recognition",
+      "revision": 1,
+      "skillDimension": "recognition"
+    },
+    {
+      "id": "courtesy-speaking",
+      "revision": 1,
+      "skillDimension": "spokenProduction",
+      "representationId": "hiragana"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "thank-you",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "thank-you-hiragana",
+          "representationId": "hiragana",
+          "value": "ありがとうございます",
+          "annotations": []
+        },
+        {
+          "id": "thank-you-romaji",
+          "representationId": "romaji",
+          "value": "arigatou gozaimasu",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Thank you."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    },
+    {
+      "id": "excuse-me",
+      "revision": 1,
+      "representations": [
+        {
+          "id": "excuse-me-hiragana",
+          "representationId": "hiragana",
+          "value": "すみません",
+          "annotations": []
+        },
+        {
+          "id": "excuse-me-romaji",
+          "representationId": "romaji",
+          "value": "sumimasen",
+          "annotations": []
+        }
+      ],
+      "meanings": [
+        {
+          "kind": "natural",
+          "languageTag": "en",
+          "value": "Excuse me."
+        }
+      ],
+      "audio": [],
+      "sourceIds": [ "tomeoftongues-original-japanese" ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "courtesy-exposure",
+      "revision": 1,
+      "kind": "contextualExposure",
+      "progression": "required",
+      "expressionIds": [ "thank-you", "excuse-me" ]
+    },
+    {
+      "id": "courtesy-check",
+      "revision": 1,
+      "kind": "exercise",
+      "progression": "required",
+      "expressionIds": [ "excuse-me" ],
+      "exercise": {
+        "id": "courtesy-meaning-check",
+        "revision": 1,
+        "type": "selection",
+        "promptModality": "text",
+        "responseModality": "selection",
+        "targetIds": [ "excuse-me" ],
+        "acceptableAnswers": [
+          {
+            "value": "Excuse me.",
+            "normalizationOperations": [ "unicodeNfc", "trim", "collapseWhitespace" ]
+          }
+        ],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "binary", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "courtesy-recognition",
+            "skillDimension": "recognition"
+          }
+        ]
+      }
+    },
+    {
+      "id": "courtesy-speak",
+      "revision": 1,
+      "kind": "optionalSpeakingOpportunity",
+      "progression": "deferredAllowed",
+      "expressionIds": [ "thank-you", "excuse-me" ],
+      "exercise": {
+        "id": "courtesy-speaking-practice",
+        "revision": 1,
+        "type": "selfAssessment",
+        "promptModality": "text",
+        "responseModality": "spoken",
+        "targetIds": [ "thank-you", "excuse-me" ],
+        "acceptableAnswers": [],
+        "assistance": [
+          {
+            "groupId": "romaji",
+            "defaultMode": "tapToReveal",
+            "representationIds": [ "romaji" ]
+          }
+        ],
+        "scoring": { "mode": "selfReported", "maximumScore": 1 },
+        "evidence": [
+          {
+            "objectiveId": "courtesy-speaking",
+            "skillDimension": "spokenProduction",
+            "representationId": "hiragana"
+          }
+        ]
+      }
+    }
+  ]
+}
