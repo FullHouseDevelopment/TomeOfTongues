@@ -33,14 +33,12 @@ public sealed class ProjectDependencyTests
         "TomeOfTongues.Content/TomeOfTongues.Content.csproj",
         "TomeOfTongues.Core/TomeOfTongues.Core.csproj",
         "TomeOfTongues.Infrastructure/TomeOfTongues.Infrastructure.csproj",
-        "TomeOfTongues.Language.Japanese/TomeOfTongues.Language.Japanese.csproj",
         "tests/TomeOfTongues.Application.Tests/TomeOfTongues.Application.Tests.csproj",
         "tests/TomeOfTongues.Architecture.Tests/TomeOfTongues.Architecture.Tests.csproj",
         "tests/TomeOfTongues.Content.Tests/TomeOfTongues.Content.Tests.csproj",
         "tests/TomeOfTongues.Content.Tool.Tests/TomeOfTongues.Content.Tool.Tests.csproj",
         "tests/TomeOfTongues.Core.Tests/TomeOfTongues.Core.Tests.csproj",
-        "tests/TomeOfTongues.Infrastructure.Tests/TomeOfTongues.Infrastructure.Tests.csproj",
-        "tests/TomeOfTongues.Language.Japanese.Tests/TomeOfTongues.Language.Japanese.Tests.csproj"
+        "tests/TomeOfTongues.Infrastructure.Tests/TomeOfTongues.Infrastructure.Tests.csproj"
     ];
 
     private static readonly string[] ExpectedSolutionProjects =
