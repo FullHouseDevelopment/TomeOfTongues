@@ -58,8 +58,10 @@ Validation reopens the artifact and enforces:
 - intrinsic JSON schema rules, including non-gating spoken work;
 - manifest, catalog, unit, lesson, objective, expression, representation,
   source, license, and asset references;
+- nonempty source origin, author, license, and attribution metadata, plus a
+  nonempty name for every license notice;
 - explicit redistribution permission for every source; and
-- SHA-256 integrity for every declared asset.
+- well-formed SHA-256 metadata and matching content for every declared asset.
 
 The manifest itself carries the source ledger and license notices.
 

@@ -92,6 +92,54 @@ public sealed class TotlangPackageToolTests
     }
 
     [Test]
+    public void Compile_rejects_incomplete_source_provenance()
+    {
+        var sourceDirectory = CreateValidSource(origin: " ");
+        var packagePath = Path.Combine(_temporaryDirectory, "fixture.totlang");
+
+        Assert.That(
+            () => TotlangPackageTool.Compile(sourceDirectory, packagePath),
+            Throws.TypeOf<InvalidDataException>()
+                .With.Message.Contains("source 'source-1' origin"));
+    }
+
+    [Test]
+    public void Compile_rejects_missing_attribution()
+    {
+        var sourceDirectory = CreateValidSource(attribution: "");
+        var packagePath = Path.Combine(_temporaryDirectory, "fixture.totlang");
+
+        Assert.That(
+            () => TotlangPackageTool.Compile(sourceDirectory, packagePath),
+            Throws.TypeOf<InvalidDataException>()
+                .With.Message.Contains("source 'source-1' attribution"));
+    }
+
+    [Test]
+    public void Compile_rejects_incomplete_license_notice()
+    {
+        var sourceDirectory = CreateValidSource(licenseName: " ");
+        var packagePath = Path.Combine(_temporaryDirectory, "fixture.totlang");
+
+        Assert.That(
+            () => TotlangPackageTool.Compile(sourceDirectory, packagePath),
+            Throws.TypeOf<InvalidDataException>()
+                .With.Message.Contains("license 'cc-by-sa-4.0' name"));
+    }
+
+    [Test]
+    public void Compile_rejects_malformed_checksum()
+    {
+        var sourceDirectory = CreateValidSource(assetSha256: new string('g', 64));
+        var packagePath = Path.Combine(_temporaryDirectory, "fixture.totlang");
+
+        Assert.That(
+            () => TotlangPackageTool.Compile(sourceDirectory, packagePath),
+            Throws.TypeOf<InvalidDataException>()
+                .With.Message.Contains("64-character hexadecimal"));
+    }
+
+    [Test]
     public void Validate_rejects_an_executable_package_entry()
     {
         var sourceDirectory = CreateValidSource();
@@ -125,7 +173,12 @@ public sealed class TotlangPackageToolTests
                 .With.Message.Contains("references missing lesson"));
     }
 
-    private string CreateValidSource(bool redistributionAllowed = true)
+    private string CreateValidSource(
+        bool redistributionAllowed = true,
+        string origin = "Original fixture",
+        string attribution = "Original fixture content",
+        string licenseName = "CC BY-SA 4.0",
+        string? assetSha256 = null)
     {
         var sourceDirectory = Path.Combine(_temporaryDirectory, "source");
         var lessonDirectory = Path.Combine(sourceDirectory, "lessons");
@@ -171,7 +224,7 @@ public sealed class TotlangPackageToolTests
                     Id = "audio-1",
                     Path = "assets/audio/prompt.ogg",
                     MediaType = "audio/ogg",
-                    Sha256 = Convert.ToHexStringLower(SHA256.HashData(assetBytes)),
+                    Sha256 = assetSha256 ?? Convert.ToHexStringLower(SHA256.HashData(assetBytes)),
                     SourceId = "source-1"
                 }
             ],
@@ -180,11 +233,11 @@ public sealed class TotlangPackageToolTests
                 new SourceDefinition
                 {
                     Id = "source-1",
-                    Origin = "Original fixture",
+                    Origin = origin,
                     Author = "TomeOfTongues contributors",
                     Reviewer = "Fixture reviewer",
                     LicenseId = "cc-by-sa-4.0",
-                    Attribution = "Original fixture content",
+                    Attribution = attribution,
                     RedistributionAllowed = redistributionAllowed,
                     ModificationAllowed = true,
                     RecordedOn = new DateOnly(2026, 7, 24)
@@ -195,7 +248,7 @@ public sealed class TotlangPackageToolTests
                 new LicenseDefinition
                 {
                     Id = "cc-by-sa-4.0",
-                    Name = "CC BY-SA 4.0",
+                    Name = licenseName,
                     Uri = "https://creativecommons.org/licenses/by-sa/4.0/"
                 }
             ]

@@ -235,8 +235,18 @@ public static class TotlangPackageArchive
             RequireValue(representation.ScriptTag, $"representation '{representation.Id}' script tag");
         }
 
+        foreach (var license in manifest.Licenses)
+        {
+            RequireValue(license.Name, $"license '{license.Id}' name");
+        }
+
         foreach (var source in manifest.Sources)
         {
+            RequireValue(source.Origin, $"source '{source.Id}' origin");
+            RequireValue(source.Author, $"source '{source.Id}' author");
+            RequireValue(source.LicenseId, $"source '{source.Id}' license");
+            RequireValue(source.Attribution, $"source '{source.Id}' attribution");
+
             if (!licenseIds.Contains(source.LicenseId))
             {
                 throw new InvalidDataException(
@@ -269,6 +279,14 @@ public static class TotlangPackageArchive
             {
                 throw new InvalidDataException(
                     $"Asset '{asset.Id}' is missing package entry '{asset.Path}'.");
+            }
+
+            RequireValue(asset.Sha256, $"asset '{asset.Id}' SHA-256 checksum");
+            if (asset.Sha256.Length != SHA256.HashSizeInBytes * 2
+                || asset.Sha256.Any(character => !Uri.IsHexDigit(character)))
+            {
+                throw new InvalidDataException(
+                    $"Asset '{asset.Id}' SHA-256 checksum must be a 64-character hexadecimal value.");
             }
 
             var actualChecksum = Convert.ToHexStringLower(SHA256.HashData(bytes));
