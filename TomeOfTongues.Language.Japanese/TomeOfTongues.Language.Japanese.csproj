@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <IsPackable>false</IsPackable>
+    <TomeLanguagePack>true</TomeLanguagePack>
+    <PackSourceDirectory>$(MSBuildProjectDirectory)/Source</PackSourceDirectory>
+    <PackOutputDirectory>$(MSBuildProjectDirectory)/../artifacts/language-packs</PackOutputDirectory>
+    <PackOutputPath>$(PackOutputDirectory)/tomeoftongues.japanese.totlang</PackOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference
+      Include="../TomeOfTongues.Content.Tool/TomeOfTongues.Content.Tool.csproj"
+      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Target Name="CompileLanguagePack" AfterTargets="Build">
+    <MakeDir Directories="$(PackOutputDirectory)" />
+    <Exec Command="dotnet &quot;$(MSBuildProjectDirectory)/../TomeOfTongues.Content.Tool/bin/$(Configuration)/$(TargetFramework)/TomeOfTongues.Content.Tool.dll&quot; compile &quot;$(PackSourceDirectory)&quot; &quot;$(PackOutputPath)&quot;" />
+  </Target>
+</Project>
