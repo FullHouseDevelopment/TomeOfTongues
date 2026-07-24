@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../TomeOfTongues.Content.Tool/TomeOfTongues.Content.Tool.csproj" />
+    <ProjectReference
+      Include="../../TomeOfTongues.Language.Japanese/TomeOfTongues.Language.Japanese.csproj"
+      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>

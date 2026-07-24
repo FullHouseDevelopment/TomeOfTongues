@@ -5,6 +5,7 @@
   <Project Path="TomeOfTongues.Content/TomeOfTongues.Content.csproj" />
   <Project Path="TomeOfTongues.Core/TomeOfTongues.Core.csproj" />
   <Project Path="TomeOfTongues.Infrastructure/TomeOfTongues.Infrastructure.csproj" />
+  <Project Path="TomeOfTongues.Language.Japanese/TomeOfTongues.Language.Japanese.csproj" />
   <Project Path="TomeOfTongues.Maui/TomeOfTongues.Maui.csproj" />
   <Project Path="tests/TomeOfTongues.Application.Tests/TomeOfTongues.Application.Tests.csproj" />
   <Project Path="tests/TomeOfTongues.Architecture.Tests/TomeOfTongues.Architecture.Tests.csproj" />
@@ -12,4 +13,5 @@
   <Project Path="tests/TomeOfTongues.Content.Tool.Tests/TomeOfTongues.Content.Tool.Tests.csproj" />
   <Project Path="tests/TomeOfTongues.Core.Tests/TomeOfTongues.Core.Tests.csproj" />
   <Project Path="tests/TomeOfTongues.Infrastructure.Tests/TomeOfTongues.Infrastructure.Tests.csproj" />
+  <Project Path="tests/TomeOfTongues.Language.Japanese.Tests/TomeOfTongues.Language.Japanese.Tests.csproj" />
 </Solution>
