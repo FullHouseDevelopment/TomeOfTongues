@@ -95,6 +95,50 @@ public sealed class TotlangPackageCatalogTests
     }
 
     [Test]
+    public void Install_accepts_a_pack_that_matches_the_engine_version()
+    {
+        var packagePath = CreatePackage("fixture.pack", "1.0.0", "1.2.3");
+        var catalog = new TotlangPackageCatalog(
+            Path.Combine(_temporaryDirectory, "installed"),
+            new Version(1, 2, 3));
+
+        var installed = catalog.Install(packagePath);
+
+        Assert.That(installed.MinimumEngineVersion, Is.EqualTo("1.2.3"));
+    }
+
+    [Test]
+    public void Discover_rechecks_compatibility_after_an_engine_downgrade()
+    {
+        var packagePath = CreatePackage("fixture.pack", "1.0.0", "2.0.0");
+        var catalogRoot = Path.Combine(_temporaryDirectory, "installed");
+        new TotlangPackageCatalog(catalogRoot, new Version(2, 0, 0))
+            .Install(packagePath);
+
+        Assert.That(
+            () => new TotlangPackageCatalog(catalogRoot, new Version(1, 9, 0))
+                .Discover(),
+            Throws.TypeOf<InvalidDataException>()
+                .With.Message.Contains("requires engine version"));
+    }
+
+    [Test]
+    public void Discover_orders_side_by_side_versions_numerically_after_restart()
+    {
+        var catalogRoot = Path.Combine(_temporaryDirectory, "installed");
+        var catalog = new TotlangPackageCatalog(catalogRoot, new Version(1, 0, 0));
+        catalog.Install(CreatePackage("fixture.pack", "1.10.0", "1.0.0"));
+        catalog.Install(CreatePackage("fixture.pack", "1.2.0", "1.0.0"));
+
+        var discovered = new TotlangPackageCatalog(catalogRoot, new Version(1, 0, 0))
+            .Discover();
+
+        Assert.That(
+            discovered.Select(pack => pack.PackageVersion),
+            Is.EqualTo(new[] { "1.2.0", "1.10.0" }));
+    }
+
+    [Test]
     public void Install_keeps_manifest_identity_out_of_the_filesystem_path()
     {
         var packagePath = CreatePackage("../outside", "1.0.0", "1.0.0");
