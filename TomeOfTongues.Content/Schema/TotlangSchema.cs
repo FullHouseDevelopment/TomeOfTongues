@@ -162,7 +162,7 @@ public static class TotlangSchema
         {
             if (catalog.SchemaVersion == LegacyVersion)
             {
-                if (string.IsNullOrWhiteSpace(course.ProficiencyBand))
+                if (course.ProficiencyBand is null)
                 {
                     throw new TotlangSchemaException(
                         $"Schema v1 course '{course.Id}' must declare proficiencyBand.");

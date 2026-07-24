@@ -40,7 +40,7 @@ public sealed class ProficiencySchemaTests
         var catalog = new TotlangCourseCatalog
         {
             SchemaVersion = TotlangSchema.LegacyVersion,
-            Courses = [CreateCourse(proficiencyBand: "starter / not-a-mapping")]
+            Courses = [CreateCourse(proficiencyBand: "   ")]
         };
 
         var restored = TotlangSchema.Deserialize<TotlangCourseCatalog>(
@@ -49,7 +49,7 @@ public sealed class ProficiencySchemaTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(course.ProficiencyBand, Is.EqualTo("starter / not-a-mapping"));
+            Assert.That(course.ProficiencyBand, Is.EqualTo("   "));
             Assert.That(course.Proficiency, Is.Null);
             Assert.That(TotlangSchema.Serialize(restored), Does.Not.Contain("\"proficiency\":"));
         });
