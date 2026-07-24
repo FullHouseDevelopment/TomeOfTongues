@@ -65,6 +65,14 @@ Validation reopens the artifact and enforces:
 
 The manifest itself carries the source ledger and license notices.
 
+The first language-specific authoring boundary is
+`TomeOfTongues.Language.Japanese`. Its checked-in `Source` directory contains
+only declarative v1 documents, and its build emits
+`artifacts/language-packs/tomeoftongues.japanese.totlang`. The initial scaffold
+records original TomeOfTongues material under CC BY-SA 4.0 but contains no
+lesson text or assets. `RIGHTS.md` records the content-owner workflow for
+future authored text and human audio.
+
 At runtime,
 `TomeOfTongues.Infrastructure.Packaging.TotlangPackageCatalog` discovers
 installed artifacts from an app-private filesystem root. Installation first
@@ -94,6 +102,8 @@ work fail at the schema boundary.
 dotnet test tests/TomeOfTongues.Content.Tests/TomeOfTongues.Content.Tests.csproj
 dotnet test tests/TomeOfTongues.Content.Tool.Tests/TomeOfTongues.Content.Tool.Tests.csproj
 dotnet test tests/TomeOfTongues.Infrastructure.Tests/TomeOfTongues.Infrastructure.Tests.csproj
+dotnet run --project TomeOfTongues.Content.Tool/TomeOfTongues.Content.Tool.csproj -- validate artifacts/language-packs
+dotnet test tests/TomeOfTongues.Language.Japanese.Tests/TomeOfTongues.Language.Japanese.Tests.csproj
 dotnet test tests/TomeOfTongues.Architecture.Tests/TomeOfTongues.Architecture.Tests.csproj
 ```
 
