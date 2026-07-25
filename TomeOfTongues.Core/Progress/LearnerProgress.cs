@@ -127,7 +127,7 @@ public sealed class LearnerProgress
 
         return new LearnerProgress(
             course,
-            CalculateUnlockedLessons(course, []),
+            CalculateUnlockedLessons(course, new HashSet<LessonId>()),
             [],
             lastLessonId: null,
             lastStepId: null,
