@@ -30,6 +30,10 @@ Architecture tests enforce that boundary across C# source, project files, and
 shared MSBuild `.props` and `.targets` inputs while leaving declarative
 `.totlang` content outside the executable dependency scan.
 
+The Core-only learning orchestration and its atomic persistence contracts are
+documented in
+[`docs/application-learning-use-cases.md`](docs/application-learning-use-cases.md).
+
 The MAUI host remains outside `TomeOfTongues.NonMaui.slnf`, allowing generic
 projects and tests to build without installing a MAUI workload.
 
