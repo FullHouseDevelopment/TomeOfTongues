@@ -2,28 +2,121 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  non-maui:
-    name: Non-MAUI tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: global.json
-      - run: dotnet test TomeOfTongues.NonMaui.slnf --configuration Debug
+  baseline:
+    name: Shared workflow policy
+    uses: yaron-E92/AutoDev/.github/workflows/profile-baseline.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    with:
+      ref: ${{ github.sha }}
+      require_concurrency: true
+    permissions:
+      contents: read
 
-  android-maui:
-    name: Android MAUI build
+  version-intent:
+    name: Version intent
+    if: github.event_name == 'pull_request'
+    uses: yaron-E92/AutoDev/.github/workflows/version-intent.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    with:
+      pr_body: ${{ github.event.pull_request.body }}
+      head: ${{ github.sha }}
+    permissions:
+      contents: read
+
+  non-maui:
+    name: Non-MAUI .NET validation
+    needs: [baseline]
+    uses: yaron-E92/AutoDev/.github/workflows/profile-dotnet.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    with:
+      ref: ${{ github.sha }}
+      runner: ubuntu-latest
+      global_json_file: global.json
+      restore_command: dotnet restore TomeOfTongues.NonMaui.slnf
+      build_command: dotnet build TomeOfTongues.NonMaui.slnf --configuration Debug --no-restore
+      test_command: |
+        set -euo pipefail
+        mkdir -p artifacts/ci/non-maui
+        dotnet test TomeOfTongues.NonMaui.slnf \
+          --configuration Debug \
+          --no-build \
+          --no-restore \
+          --logger 'trx;LogFilePrefix=nonmaui' \
+          --results-directory artifacts/ci/non-maui \
+          --verbosity normal
+      test_results_path: artifacts/ci/non-maui/*.trx
+      artifact_name: tomeoftongues-non-maui-results
+    permissions:
+      contents: read
+      packages: read
+
+  maui:
+    name: Android MAUI validation
+    needs: [baseline]
+    uses: yaron-E92/AutoDev/.github/workflows/profile-maui.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    with:
+      ref: ${{ github.sha }}
+      global_json_file: global.json
+      headless_enabled: false
+      android_enabled: true
+      android_runner: ubuntu-latest
+      android_setup_command: dotnet workload restore TomeOfTongues.Maui/TomeOfTongues.Maui.csproj
+      android_restore_command: dotnet restore TomeOfTongues.Maui/TomeOfTongues.Maui.csproj
+      android_build_command: dotnet build TomeOfTongues.Maui/TomeOfTongues.Maui.csproj --configuration Debug --framework net10.0-android --no-restore
+      android_test_command: find TomeOfTongues.Maui/bin/Debug/net10.0-android -type f -name 'TomeOfTongues.Maui.dll' -print -quit | grep -q .
+      windows_enabled: false
+    permissions:
+      contents: read
+      packages: read
+
+  ci-gate:
+    name: CI gate
+    if: always()
+    needs: [baseline, version-intent, non-maui, maui]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: global.json
-      - run: dotnet workload restore TomeOfTongues.Maui/TomeOfTongues.Maui.csproj
-      - run: dotnet build TomeOfTongues.Maui/TomeOfTongues.Maui.csproj --configuration Debug --framework net10.0-android
+      - name: Require version policy and product validation
+        shell: bash
+        env:
+          BASELINE: ${{ needs.baseline.result }}
+          VERSION_INTENT: ${{ needs.version-intent.result }}
+          NON_MAUI: ${{ needs.non-maui.result }}
+          MAUI: ${{ needs.maui.result }}
+        run: |
+          set -euo pipefail
+          if [[ "$BASELINE" != 'success' ||
+                "$NON_MAUI" != 'success' ||
+                "$MAUI" != 'success' ]]; then
+            echo "Required CI failed: baseline=$BASELINE non-maui=$NON_MAUI maui=$MAUI" >&2
+            exit 1
+          fi
+
+          if [[ "$VERSION_INTENT" != 'success' && "$VERSION_INTENT" != 'skipped' ]]; then
+            echo "Version intent validation failed: $VERSION_INTENT" >&2
+            exit 1
+          fi
+
+          echo 'TomeOfTongues authoritative CI passed.'
+
+  version-tag:
+    name: Advance version tag
+    needs: [ci-gate]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.ci-gate.result == 'success'
+    uses: yaron-E92/AutoDev/.github/workflows/version-tag.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    with:
+      head: ${{ github.sha }}
+      branch: main
+    permissions:
+      contents: write
+      pull-requests: read
