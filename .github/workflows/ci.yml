@@ -46,20 +46,14 @@ jobs:
       test_command: |
         set -euo pipefail
         mkdir -p artifacts/ci/non-maui
-        dotnet test TomeOfTongues.NonMaui.slnf \
-          --configuration Debug \
-          --no-build \
-          --no-restore \
-          --logger 'trx;LogFilePrefix=nonmaui' \
-          --results-directory artifacts/ci/non-maui \
-          --verbosity normal
+        dotnet test TomeOfTongues.NonMaui.slnf --configuration Debug --no-build --no-restore --logger 'trx;LogFilePrefix=nonmaui' --results-directory artifacts/ci/non-maui --verbosity normal
       test_results_path: artifacts/ci/non-maui/*.trx
       artifact_name: tomeoftongues-non-maui-results
     permissions:
       contents: read
       packages: read
 
-  maui:
+  android-maui:
     name: Android MAUI validation
     needs: [baseline]
     uses: yaron-E92/AutoDev/.github/workflows/profile-maui.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
@@ -81,7 +75,7 @@ jobs:
   ci-gate:
     name: CI gate
     if: always()
-    needs: [baseline, version-intent, non-maui, maui]
+    needs: [baseline, version-intent, non-maui, android-maui]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -92,13 +86,13 @@ jobs:
           BASELINE: ${{ needs.baseline.result }}
           VERSION_INTENT: ${{ needs.version-intent.result }}
           NON_MAUI: ${{ needs.non-maui.result }}
-          MAUI: ${{ needs.maui.result }}
+          ANDROID_MAUI: ${{ needs.android-maui.result }}
         run: |
           set -euo pipefail
           if [[ "$BASELINE" != 'success' ||
                 "$NON_MAUI" != 'success' ||
-                "$MAUI" != 'success' ]]; then
-            echo "Required CI failed: baseline=$BASELINE non-maui=$NON_MAUI maui=$MAUI" >&2
+                "$ANDROID_MAUI" != 'success' ]]; then
+            echo "Required CI failed: baseline=$BASELINE non-maui=$NON_MAUI android-maui=$ANDROID_MAUI" >&2
             exit 1
           fi
 
