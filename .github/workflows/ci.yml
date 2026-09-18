@@ -16,7 +16,7 @@ concurrency:
 jobs:
   baseline:
     name: Shared workflow policy
-    uses: yaron-E92/AutoDev/.github/workflows/profile-baseline.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    uses: FullHouseDevelopment/AutoDev/.github/workflows/profile-baseline.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
     with:
       ref: ${{ github.sha }}
       require_concurrency: true
@@ -26,7 +26,7 @@ jobs:
   version-intent:
     name: Version intent
     if: github.event_name == 'pull_request'
-    uses: yaron-E92/AutoDev/.github/workflows/version-intent.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    uses: FullHouseDevelopment/AutoDev/.github/workflows/version-intent.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
     with:
       pr_body: ${{ github.event.pull_request.body }}
       head: ${{ github.sha }}
@@ -36,7 +36,7 @@ jobs:
   non-maui:
     name: Non-MAUI .NET validation
     needs: [baseline]
-    uses: yaron-E92/AutoDev/.github/workflows/profile-dotnet.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    uses: FullHouseDevelopment/AutoDev/.github/workflows/profile-dotnet.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
     with:
       ref: ${{ github.sha }}
       runner: ubuntu-latest
@@ -56,7 +56,7 @@ jobs:
   android-maui:
     name: Android MAUI validation
     needs: [baseline]
-    uses: yaron-E92/AutoDev/.github/workflows/profile-maui.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    uses: FullHouseDevelopment/AutoDev/.github/workflows/profile-maui.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
     with:
       ref: ${{ github.sha }}
       global_json_file: global.json
@@ -107,7 +107,7 @@ jobs:
     name: Advance version tag
     needs: [ci-gate]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.ci-gate.result == 'success'
-    uses: yaron-E92/AutoDev/.github/workflows/version-tag.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
+    uses: FullHouseDevelopment/AutoDev/.github/workflows/version-tag.yml@7190410c74ab6674d1c8cc647b178bbc4b5cdd54
     with:
       head: ${{ github.sha }}
       branch: main
